@@ -1,0 +1,17 @@
+{
+  "name": "dishwipe-ai-monorepo",
+  "version": "1.0.0",
+  "description": "Full stack MVP for DishWipe AI",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "start": "concurrently \"npm start --prefix frontend\" \"npm start --prefix backend\"",
+    "install:all": "npm install && npm install --prefix frontend && npm install --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
