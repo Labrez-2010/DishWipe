@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import InputView from './components/InputView';
 import SwipeView from './components/SwipeView';
+import { apiUrl } from './config/api';
 
 function App() {
   const [currentView, setCurrentView] = useState('input');
@@ -9,7 +10,7 @@ function App() {
 
   const handleFindRecipes = async (ingredients) => {
     try {
-      const response = await fetch('/api/recipes/recommend', {
+      const response = await fetch(apiUrl('/api/recipes/recommend'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
