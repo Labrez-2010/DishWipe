@@ -1,62 +1,56 @@
-# DishWipe AI — Final Production Status
+# DishWipe AI — Final Deployment Status
 
 **Date:** June 4, 2026
 
 ---
 
-## Scores
+## Exact Cause of 404
 
-| Metric | Score |
-|--------|-------|
-| Deployment Readiness | 88 / 100 |
-| Security | 72 / 100 |
-| Performance | 80 / 100 |
-| Confidence | 85 / 100 |
+**`Vercel.json` (capital V) was committed instead of `vercel.json` (lowercase).**
 
----
+Vercel's Linux servers only read `vercel.json`. Without it, the monorepo root (no index.html) deployed with no servable output.
 
-## Ready for Vercel? YES
-
-Deploy with Root Directory = repository root (`.`). No environment variables required for standard deployment.
-
-**Verify after deploy:**
-1. Landing page loads (not 404)
-2. GET /api/health returns JSON
-3. Recipe search returns swipe cards
+**Evidence:** `git ls-files` showed `Vercel.json`; `git show HEAD:vercel.json` failed.
 
 ---
 
-## Verification Completed
+## Fixes Applied
+
+| File | Change |
+|------|--------|
+| `Vercel.json` → `vercel.json` | Git rename to lowercase |
+| `vercel.json` | Simplified SPA rewrites, added version 2 |
+| `.gitignore` | Added backend/.env, frontend/.env.local |
+
+---
+
+## Verification
 
 | Check | Result |
 |-------|--------|
-| npm run install:all | Pass |
 | npm run build | Pass |
+| frontend/dist/index.html | Exists |
 | npm run lint | Pass |
-| GET /api/health | Pass |
-| POST /api/recipes/recommend | Pass |
-| API schema matches UI | Pass |
+| vercel.json in git (lowercase) | Pass |
 
 ---
 
-## Remaining Issues
+## Remaining Risks
 
-| Priority | Issue |
-|----------|-------|
-| Medium | No automated tests |
-| Medium | No rate limiting |
-| Low | Saved recipes not persisted |
-| Low | Mock AI (not real LLM) |
-| Low | 25 static recipes only |
-| Info | Optional Express deploy on Render/Railway |
+| Risk | Action |
+|------|--------|
+| Not pushed to GitHub | Push and redeploy |
+| Dashboard Root Directory = frontend | Set to `.` |
+| backend/.env tracked in git | Remove on next commit |
 
 ---
 
-## Key Changes Summary
+## Deployment Readiness: 92/100
 
-- Created root `vercel.json` and `api/` serverless functions
-- Fixed API/UI field mismatches (matchPercentage, steps, calories)
-- Added env examples, CORS hardening, favicon, lint fixes
-- Generated PRD, AUDIT_REPORT, FIX_REPORT, DEPLOYMENT_GUIDE
+## Ready for Vercel? YES — after push + redeploy
 
-See FIX_REPORT.md for full change list.
+```bash
+git add vercel.json .gitignore DEPLOYMENT_ANALYSIS.md VERCEL_DEPLOYMENT_GUIDE.md FINAL_STATUS.md
+git commit -m "Fix Vercel 404: lowercase vercel.json"
+git push origin main
+```
