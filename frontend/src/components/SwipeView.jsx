@@ -118,7 +118,7 @@ export default function SwipeView({ recipes, onBack }) {
             className="fixed inset-0 z-50 bg-slate-900 overflow-y-auto"
           >
             <div className="h-64 relative">
-              <img src={selectedRecipe.image} className="w-full h-full object-cover" alt="" />
+              <img src={selectedRecipe.image} className="w-full h-full object-cover" alt={selectedRecipe.title} />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent" />
               <button 
                 onClick={() => setSelectedRecipe(null)}
@@ -139,7 +139,7 @@ export default function SwipeView({ recipes, onBack }) {
               
               <h3 className="text-xl font-bold mb-4">Instructions</h3>
               <ul className="space-y-4">
-                {selectedRecipe.steps.map((step, i) => (
+                {(selectedRecipe.steps || []).map((step, i) => (
                   <li key={i} className="flex gap-4 bg-slate-800/50 p-4 rounded-xl border border-slate-700/50">
                     <span className="w-8 h-8 rounded-full bg-violet-600/20 text-violet-400 flex items-center justify-center font-bold shrink-0">
                       {i + 1}

@@ -1,6 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChefHat, Plus, X, Search, Sparkles, Wand2 } from 'lucide-react';
+
+const MOCK_SUGGESTIONS = [
+  'Add garlic for extra flavor!',
+  'A splash of soy sauce would go great here.',
+  'Consider adding some fresh herbs like basil.',
+  'Try adding an egg for extra protein.',
+  'A squeeze of lemon would brighten this up!',
+];
+
+const pickSuggestion = () =>
+  MOCK_SUGGESTIONS[Math.floor(Math.random() * MOCK_SUGGESTIONS.length)];
 
 export default function InputView({ onFindRecipes }) {
   const [ingredients, setIngredients] = useState([]);
@@ -8,35 +19,22 @@ export default function InputView({ onFindRecipes }) {
   const [isSearching, setIsSearching] = useState(false);
   const [aiSuggestion, setAiSuggestion] = useState('');
 
-  const MOCK_SUGGESTIONS = [
-    "Add garlic for extra flavor!",
-    "A splash of soy sauce would go great here.",
-    "Consider adding some fresh herbs like basil.",
-    "Try adding an egg for extra protein.",
-    "A squeeze of lemon would brighten this up!"
-  ];
-
-  useEffect(() => {
-    if (ingredients.length > 0) {
-      // Mock an AI loading and suggestion
-      const randomSuggestion = MOCK_SUGGESTIONS[Math.floor(Math.random() * MOCK_SUGGESTIONS.length)];
-      setAiSuggestion(randomSuggestion);
-    } else {
-      setAiSuggestion('');
-    }
-  }, [ingredients]);
-
   const handleAddIngredient = (e) => {
     e.preventDefault();
     const val = inputValue.trim().toLowerCase();
     if (val && !ingredients.includes(val)) {
       setIngredients([...ingredients, val]);
+      setAiSuggestion(pickSuggestion());
       setInputValue('');
     }
   };
 
   const removeIngredient = (ing) => {
-    setIngredients(ingredients.filter(i => i !== ing));
+    const nextIngredients = ingredients.filter((i) => i !== ing);
+    setIngredients(nextIngredients);
+    if (nextIngredients.length === 0) {
+      setAiSuggestion('');
+    }
   };
 
   const handleFindDishes = async () => {

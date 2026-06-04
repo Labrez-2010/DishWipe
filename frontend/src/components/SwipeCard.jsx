@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
-import { Clock, Flame, Heart, X as XIcon, Info, Sparkles } from 'lucide-react';
+import { Clock, Flame, Info, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
 export default function SwipeCard({ recipe, onSwipeLeft, onSwipeRight, onOpenDetails }) {

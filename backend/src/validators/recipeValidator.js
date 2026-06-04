@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+const { validateRecommendRequest } = require('./recommendRequestValidation');
 
 const recommendRecipesValidator = [
   body('ingredients')
@@ -9,9 +10,10 @@ const recommendRecipesValidator = [
   body('ingredients.*')
     .isString().withMessage('Each ingredient must be a string')
     .trim()
-    .escape()
+    .escape(),
 ];
 
 module.exports = {
-  recommendRecipesValidator
+  recommendRecipesValidator,
+  validateRecommendRequest,
 };
